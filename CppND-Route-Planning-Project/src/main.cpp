@@ -64,22 +64,22 @@ int main(int argc, const char **argv)
     float end_y = 0.0;
     
     // Note: the values below must be between zero and one-hundred based upon the shape/size of our map
-    std::cout << "\n" << "\n";
+    std::cout << "\n";
     std::cout << "Enter the x coordinate for the starting location: ";  //note: must be a value between zero and one-hundred
     std::cin >> start_x; //start_vector[0];
-    std::cout << "\n";
+    //std::cout << "\n";
     std::cout << "Enter the y coordinate for the starting location: ";  //note: must be a value between zero and one-hundred
     std::cin >> start_y; //start_vector[1];
     std::cout << "\n";
     
-    std::cout << "\n" << "\n";
+    //std::cout << "\n" << "\n";
     std::cout << "Enter the x coordinate for the ending location: ";    //note: must be a value between zero and one-hundred
     std::cin >> end_x; //end_vector[0];
-    std::cout << "\n";
+    //std::cout << "\n";
     std::cout << "Enter the y coordinate for the ending location: ";    //note: must be a value between zero and one-hundred
     std::cin >> end_y; //end_vector[1];
     std::cout << "\n";
-    std::cout << "\n" << "\n";
+    //std::cout << "\n" << "\n";
     
 
     // Build Model.
