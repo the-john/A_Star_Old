@@ -5,6 +5,8 @@ Below is a test route calculated by the A* algorithm.  The map is from OpenStree
 
 ![](https://github.com/the-john/A_Star/blob/master/START-20-80-STOP-70-10.JPG)
 
+The coordinates 0m x 0m will be in the bottom left-hand corner.  The coordinates 100m x 100m will be on the top right-hand corner.
+
 ## The Code Structure
 
 ![](https://github.com/the-john/A_Star/blob/master/Route_Planning_Code_Structure.png)
