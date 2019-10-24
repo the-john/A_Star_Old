@@ -52,19 +52,32 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Remove that node from the open_list.
 // - Return the pointer.
 
+/*
 bool Compare(RouteModel::Node const *a, RouteModel::Node const *b) {
-    int fa = (a -> h_value) + (b -> g_value);
+    int fa = (a -> h_value) + (a -> g_value);
     int fb = (b -> h_value) + (b -> g_value);
     return fa > fb;  // return true if first element's F value is greater than the second element's F value
+                     // which means that fa should be placed before fb in the open_list via sort (below)
 }
+*/
 
 RouteModel::Node *RoutePlanner::NextNode() {
     // Sort the open_list from largets F value to smallest F value
-    std::sort(open_list.begin(), open_list.end(), Compare);  //https://www.geeksforgeeks.org/sort-c-stl/ go to end and read
-    // The last node in open_list is the one we want, we grab it to pass out and then remove it from the open_list
+    //std::sort(open_list.begin(), open_list.end(), Compare);  //https://www.geeksforgeeks.org/sort-c-stl/ go to end and read
+    // /*
+    std::sort(open_list.begin(), open_list.end(),
+        [](auto const &a, auto const &b) {
+            return (a -> h_value + a -> g_value) > (b -> h_value + b -> g_value);
+        });
+    // */
+    // The open_list is now sorted by F value, the largest F value nodes are at the front of the open_list vector
+    // The last node in open_list is the one we want (it has the smallest F value), we grab it to pass out and then remove it from the open_list
+    //reverse(open_list.begin(), open_list.end());
     auto nextNode = open_list.back();
-    open_list.pop_back();
-    return nextNode;
+    //auto nextNode = open_list.front();
+    open_list.pop_back();  // We can now remove this node from open_list
+    //open_list.erase(open_list.begin());
+    return nextNode;  // And we pass out the node that was in the open_list that closest to the end location (had the smallest F value)
 }
 
 
@@ -86,7 +99,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
         path_found.push_back(*current_node);
         RouteModel::Node parent_node = *(current_node -> parent);
         distance += current_node -> distance(parent_node);
-        current_node = &parent_node; 
+        current_node = current_node -> parent; 
     }
     path_found.push_back(*current_node);  // Don't forget to add the Start node (won't be in 'while' loop)
     reverse(path_found.begin(), path_found.end());  // Reverse the order of the vector or it will not pass testing
@@ -103,22 +116,22 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 // - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
 
 void RoutePlanner::AStarSearch() {
-    RouteModel::Node *current_node = nullptr;
+    RouteModel::Node *current_node = nullptr;  // clear/empty the current_node??? (if needed?)
 
     // TODO: Implement your solution here.
-    current_node -> visited = true;  // Make the starting node visited
-    open_list.push_back(current_node);  // And initialize it as the starting node
-
+    current_node = start_node;  // Start with the start_node
+    current_node -> visited = true;  // Set the starting node as visited
+    open_list.push_back(current_node);  // Add start_node to the open_list
+    // As long as there is something in the open_list, keep searching for nearest neighbor
     while (open_list.size() > 0) {
-        current_node = NextNode();
+        current_node = NextNode();  // Get the next node (if this is the first time through, next node will be the start_node that we just put in open_list)
+        // if this is the last node, make the path
         if (current_node -> distance(*end_node) == 0) {
             m_Model.path = ConstructFinalPath(current_node);
             return;
         }
-        else {
-            AddNeighbors(current_node);
-        }
-
+        // if not the last node, got get another one
+        AddNeighbors(current_node);
     }
 
 }

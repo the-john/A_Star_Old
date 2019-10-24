@@ -11,6 +11,7 @@ set(LIBRARY_OUTPUT_PATH "${MAINFOLDER}/lib")
 
 # Locate Project Prerequisites
 find_package(io2d REQUIRED)
+# add_definitions(-Wno-dev)
 find_package(Cairo)
 find_package(GraphicsMagick)
 

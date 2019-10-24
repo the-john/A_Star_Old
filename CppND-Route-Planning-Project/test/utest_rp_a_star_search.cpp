@@ -110,13 +110,22 @@ TEST_F(RoutePlannerTest, TestConstructFinalPath) {
 // Test the AStarSearch method.
 TEST_F(RoutePlannerTest, TestAStarSearch) {
     route_planner.AStarSearch();
+    //std::cerr << "one" << "\n";
     EXPECT_EQ(model.path.size(), 33);
+    //std::cerr << "two" << "\n";
     RouteModel::Node path_start = model.path.front();
+    //std::cerr << "three" << "\n";
     RouteModel::Node path_end = model.path.back();
+    //std::cerr << "four" << "\n";
     // The start_node and end_node x, y values should be the same as in the path.
     EXPECT_FLOAT_EQ(start_node->x, path_start.x);
+    //std::cerr << "five" << "\n";
     EXPECT_FLOAT_EQ(start_node->y, path_start.y);
+    //std::cerr << "six" << "\n";
     EXPECT_FLOAT_EQ(end_node->x, path_end.x);
+    //std::cerr << "seven" << "\n";
     EXPECT_FLOAT_EQ(end_node->y, path_end.y);
+    //std::cerr << "eight" << "\n";
     EXPECT_FLOAT_EQ(route_planner.GetDistance(), 873.41565);
+    //std::cerr << "nine" << "\n";
 }
